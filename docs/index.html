@@ -171,6 +171,11 @@
     .demo-info { flex: 1; min-width: 0; }
     .demo-info h3 { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
     .demo-info p { font-size: 0.85rem; color: var(--text-light); line-height: 1.5; }
+    .demo-value {
+      font-size: 0.9rem; color: var(--text); line-height: 1.6;
+      padding: 0 24px 16px; border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
     .demo-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     .demo-tags .fn-tag {
       font-size: 0.72rem; font-family: 'SFMono-Regular', Consolas, monospace;
@@ -349,66 +354,21 @@
 <section id="gallery">
   <div class="container">
     <div class="section-label">Demo Gallery</div>
-    <h2 class="section-title">11 Practical Use Cases</h2>
-    <p class="section-desc">Each script is self-contained and runnable. Click any card to see the code and sample output.</p>
+    <h2 class="section-title">10 Practical Use Cases</h2>
+    <p class="section-desc">Each demo addresses a real challenge in clinical submission readiness. Click any card to see the code and live output.</p>
     <div class="demo-grid">
-
-      <!-- 00 -->
-      <div class="demo-card">
-        <div class="demo-header" onclick="toggleDemo(this)">
-          <div class="demo-num">00</div>
-          <div class="demo-info">
-            <h3>Setup</h3>
-            <p>Install and verify the entire R4SUB ecosystem with a single command.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4sub</span>
-              <span class="fn-tag">pak::pak()</span>
-              <span class="fn-tag">r4sub_packages()</span>
-            </div>
-          </div>
-        </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
-        <div class="demo-body">
-          <div class="demo-body-inner">
-            <h4>Code</h4>
-            <pre><code class="language-r">## Install the R4SUB meta-package (pulls all dependencies)
-if (!requireNamespace("pak", quietly = TRUE))
-  install.packages("pak")
-
-pak::pak("R4SUB/r4sub")
-
-## Verify
-library(r4sub)
-r4sub_packages()</code></pre>
-            <h4>Output</h4>
-            <div class="output-block"><span class="output-highlight">-- Attaching R4SUB packages (r4sub 0.1.0) --</span>
-  r4subcore    0.1.0
-  r4subtrace   0.1.0
-  r4subscore   0.1.0
-  r4subrisk    0.1.0
-  r4subdata    0.1.0
-  r4subprofile 0.1.0</div>
-            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/00-setup.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
-          </div>
-        </div>
-      </div>
 
       <!-- 01 -->
       <div class="demo-card">
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">01</div>
           <div class="demo-info">
-            <h3>Getting Started</h3>
-            <p>Load packages, discover 6 built-in datasets, and explore the evidence table schema.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4sub</span>
-              <span class="pkg-badge">r4subdata</span>
-              <span class="fn-tag">list_datasets()</span>
-              <span class="fn-tag">evidence_schema()</span>
-            </div>
+            <h3>Explore Your Data Assets</h3>
+            <p>Understand what you're working with before you start assessing readiness.</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">Before any readiness assessment, teams need a clear picture of their data landscape. This demo shows how to inventory all available datasets, understand the evidence schema, and see exactly what columns, types, and controlled vocabularies are in play &mdash; giving everyone a shared understanding of the data contract.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -452,17 +412,12 @@ evidence_schema()</code></pre>
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">02</div>
           <div class="demo-info">
-            <h3>Evidence Pipeline</h3>
-            <p>Build evidence from scratch, canonicalize labels, validate schema, and combine multiple sources.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4subcore</span>
-              <span class="fn-tag">as_evidence()</span>
-              <span class="fn-tag">canon_severity()</span>
-              <span class="fn-tag">bind_evidence()</span>
-            </div>
+            <h3>Unify Evidence from Multiple Sources</h3>
+            <p>Standardize findings from Pinnacle 21, manual reviews, and other tools into one validated table.</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">Every submission relies on evidence from multiple tools and teams &mdash; Pinnacle 21 outputs, manual review findings, traceability checks. Without standardization, inconsistencies slip through. R4SUB normalizes all these inputs into a single, schema-validated evidence table with consistent severity labels and result codes, so nothing is lost in translation.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -514,17 +469,12 @@ Validation result: TRUE
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">03</div>
           <div class="demo-info">
-            <h3>Traceability Analysis</h3>
-            <p>Build ADaM-to-SDTM trace models, detect orphan variables, and compute L0-L3 trace levels.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4subtrace</span>
-              <span class="pkg-badge">r4subdata</span>
-              <span class="fn-tag">build_trace_model()</span>
-              <span class="fn-tag">compute_trace_levels()</span>
-            </div>
+            <h3>Verify Data Lineage End-to-End</h3>
+            <p>Ensure every analysis variable traces back to its source &mdash; before a reviewer asks.</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">Regulators expect every ADaM analysis variable to trace back to its SDTM source. Missing links trigger review queries and delays. This demo automatically maps 36 ADaM variables to their SDTM origins, flags 11 orphan variables with no source link, and quantifies coverage at 69% &mdash; giving teams a clear picture of traceability gaps to fix before filing.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -574,18 +524,12 @@ Trace indicator scores:
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">04</div>
           <div class="demo-info">
-            <h3>Risk Assessment</h3>
-            <p>FMEA risk registers, RPN scoring, risk classification, auto-generation from evidence, and mitigation tracking.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4subrisk</span>
-              <span class="pkg-badge">r4subdata</span>
-              <span class="fn-tag">create_risk_register()</span>
-              <span class="fn-tag">compute_risk_scores()</span>
-              <span class="fn-tag">evidence_to_risks()</span>
-            </div>
+            <h3>Identify and Prioritize Submission Risks</h3>
+            <p>Know which risks matter most and where to focus remediation effort.</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">Not all issues are equal. A duplicate record in a safety dataset is far more critical than a label length warning. R4SUB uses FMEA methodology to score each risk by probability, impact, and detectability, producing a Risk Priority Number (RPN) that tells teams exactly where to focus. It can also auto-generate risks directly from existing evidence &mdash; turning 250 findings into 83 prioritized risks automatically.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -632,17 +576,12 @@ Category summary:
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">05</div>
           <div class="demo-info">
-            <h3>Submission Scoring</h3>
-            <p>Compute the Submission Confidence Index (SCI), pillar scores, decision bands, and explainability breakdowns.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4subscore</span>
-              <span class="fn-tag">compute_sci()</span>
-              <span class="fn-tag">sci_explain()</span>
-              <span class="fn-tag">sci_config_default()</span>
-            </div>
+            <h3>Get a Single Readiness Score</h3>
+            <p>Distill hundreds of findings into one number that answers &ldquo;Are we ready?&rdquo;</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">The Submission Confidence Index (SCI) condenses quality, traceability, risk, and usability signals into a single 0&ndash;100 score with a clear decision band: ready, minor gaps, conditional, or high risk. Every point is fully explainable &mdash; stakeholders can drill into exactly which indicators are dragging the score down and by how much, making remediation discussions evidence-based rather than opinion-based.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -686,17 +625,12 @@ Top loss contributors:
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">06</div>
           <div class="demo-info">
-            <h3>Regulatory Profiles</h3>
-            <p>Compare pillar weights, required indicators, and coverage thresholds across FDA, EMA, PMDA, and more.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4subprofile</span>
-              <span class="fn-tag">submission_profile()</span>
-              <span class="fn-tag">list_authorities()</span>
-              <span class="fn-tag">validate_against_profile()</span>
-            </div>
+            <h3>Meet Each Authority's Requirements</h3>
+            <p>See exactly what FDA, EMA, PMDA, and 3 other agencies require for your submission type.</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">Each regulatory authority weighs quality, traceability, and risk differently. The FDA emphasizes data quality (35%), while PMDA puts more weight on traceability (30%). R4SUB ships with built-in profiles for 6 agencies and 16 submission types, so teams can instantly check which indicators are required, what coverage thresholds apply, and whether their evidence meets the bar for a specific filing.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -738,17 +672,12 @@ Pillar weight comparison:
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">07</div>
           <div class="demo-info">
-            <h3>End-to-End Workflow</h3>
-            <p>Complete pipeline: metadata &rarr; traceability &rarr; risk &rarr; evidence &rarr; SCI &rarr; go/no-go decision.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">all packages</span>
-              <span class="fn-tag">build_trace_model()</span>
-              <span class="fn-tag">compute_sci()</span>
-              <span class="fn-tag">validate_against_profile()</span>
-            </div>
+            <h3>Full Pipeline: Data to Decision</h3>
+            <p>The complete workflow &mdash; from raw metadata to a go/no-go submission gate.</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">This is what a data-driven submission gate looks like. In under 80 lines of code, R4SUB takes raw metadata, builds traceability models, scores risks, consolidates 297 evidence rows across 4 domains, computes an SCI of 44/100 against the FDA NDA profile, and delivers a clear verdict: &ldquo;NOT READY &mdash; Significant work required.&rdquo; No ambiguity, no guesswork, fully auditable.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -812,16 +741,12 @@ sci     &lt;- compute_sci(ps, config = sci_cfg)</code></pre>
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">08</div>
           <div class="demo-info">
-            <h3>Sensitivity Analysis</h3>
-            <p>What-if analysis: vary pillar weights, adjust decision thresholds, run automated sensitivity grids.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4subscore</span>
-              <span class="fn-tag">sci_sensitivity_analysis()</span>
-              <span class="fn-tag">sci_config_default()</span>
-            </div>
+            <h3>Stress-Test Your Assumptions</h3>
+            <p>What if we weighted quality more heavily? Would the decision change?</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">Before committing to a scoring configuration, stakeholders need to know if the conclusion is robust. This demo varies pillar weights across 5 scenarios and tests 5 different decision thresholds. The result: this study scores &ldquo;high risk&rdquo; regardless of how weights are configured &mdash; the conclusion is stable, not an artifact of a particular weighting choice. That's the kind of confidence decision-makers need.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -876,17 +801,12 @@ result &lt;- sci_sensitivity_analysis(evidence_pharma, weight_grid)</code></pre>
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">09</div>
           <div class="demo-info">
-            <h3>Multi-Authority Comparison</h3>
-            <p>Same study scored against 6 regulatory agencies. See which authority is strictest and how weights differ.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4subprofile</span>
-              <span class="pkg-badge">r4subscore</span>
-              <span class="fn-tag">submission_profile()</span>
-              <span class="fn-tag">compute_sci()</span>
-            </div>
+            <h3>Compare Readiness Across Regions</h3>
+            <p>Filing globally? See how the same data scores against 6 different agencies side by side.</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">Global submissions mean meeting requirements from multiple authorities simultaneously. This demo scores identical evidence against FDA, EMA, PMDA, Health Canada, TGA, and MHRA in one run. The result reveals that FDA is the strictest (SCI: 44.4) and PMDA the most lenient (SCI: 45.0) &mdash; but the 0.6-point spread means this study fails everywhere. Teams get a single view of multi-regional readiness instead of managing it in silos.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -937,16 +857,12 @@ Pillar Weight Comparison:
         <div class="demo-header" onclick="toggleDemo(this)">
           <div class="demo-num">10</div>
           <div class="demo-info">
-            <h3>Dashboard Launch</h3>
-            <p>Launch the interactive Shiny dashboard with pre-loaded evidence data, demo data, or your own datasets.</p>
-            <div class="demo-tags">
-              <span class="pkg-badge">r4subui</span>
-              <span class="fn-tag">r4sub_app()</span>
-              <span class="fn-tag">generate_demo_evidence()</span>
-            </div>
+            <h3>Interactive Dashboard for the Whole Team</h3>
+            <p>Give stakeholders a visual, no-code way to explore readiness.</p>
           </div>
         </div>
-        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <p class="demo-value">Not everyone writes R code. The Shiny dashboard gives project managers, regulatory leads, and quality teams an interactive interface to explore evidence tables, drill into pillar scores, view SCI gauges, and understand risk &mdash; without touching a command line. Load your own data or use the built-in demo datasets to see it in action.</p>
+        <div class="demo-expand" onclick="toggleDemo(this)">Show code &amp; output</div>
         <div class="demo-body">
           <div class="demo-body-inner">
             <h4>Code</h4>
@@ -1028,8 +944,8 @@ source("07-end-to-end-workflow.R")</code></pre>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-r.min.js"></script>
 <script>
-function toggleDemo(headerEl) {
-  const card = headerEl.closest('.demo-card');
+function toggleDemo(el) {
+  const card = el.closest('.demo-card');
   const body = card.querySelector('.demo-body');
   const expand = card.querySelector('.demo-expand');
   const isOpen = body.classList.contains('open');
