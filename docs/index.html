@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R4SUB Gallery - Clinical Submission Readiness Ecosystem</title>
+  <meta name="description" content="Practical demos and use-case gallery for the R4SUB clinical submission readiness ecosystem for R.">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2a4a7f;
+      --accent: #38b2ac;
+      --accent-light: #4fd1c5;
+      --bg: #f7fafc;
+      --bg-white: #ffffff;
+      --text: #2d3748;
+      --text-light: #718096;
+      --text-muted: #a0aec0;
+      --code-bg: #1e1e2e;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px rgba(0,0,0,0.08), 0 4px 6px rgba(0,0,0,0.05);
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- NAV --- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(26, 54, 93, 0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 60px;
+    }
+    .nav-brand {
+      font-size: 1.25rem; font-weight: 700; color: #fff;
+      text-decoration: none; letter-spacing: -0.5px;
+    }
+    .nav-brand span { color: var(--accent-light); }
+    .nav-links { display: flex; gap: 8px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem;
+      padding: 6px 14px; border-radius: 6px; transition: all 0.2s;
+    }
+    .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+    /* --- HERO --- */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #1a3a5c 40%, #1a4a5a 100%);
+      padding: 140px 24px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(56,178,172,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 80%, rgba(56,178,172,0.1) 0%, transparent 50%);
+    }
+    .hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+    .hero h1 {
+      font-size: 3.2rem; font-weight: 800; color: #fff;
+      letter-spacing: -1px; margin-bottom: 16px; line-height: 1.15;
+    }
+    .hero h1 span { color: var(--accent-light); }
+    .hero p {
+      font-size: 1.2rem; color: rgba(255,255,255,0.75);
+      max-width: 600px; margin: 0 auto 36px; line-height: 1.7;
+    }
+    .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 8px; font-size: 0.95rem;
+      font-weight: 600; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 2px 8px rgba(56,178,172,0.3);
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,0.3); color: #fff;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
+
+    /* --- SECTIONS --- */
+    section { padding: 80px 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      text-transform: uppercase; font-size: 0.8rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 2rem; font-weight: 700; color: var(--primary);
+      margin-bottom: 12px; letter-spacing: -0.5px;
+    }
+    .section-desc {
+      color: var(--text-light); font-size: 1.05rem; max-width: 640px; margin-bottom: 48px;
+    }
+
+    /* --- ECOSYSTEM GRID --- */
+    .pkg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 16px;
+    }
+    .pkg-card {
+      background: var(--bg-white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      transition: all 0.2s; text-decoration: none; color: inherit;
+      display: block;
+    }
+    .pkg-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); transform: translateY(-2px); }
+    .pkg-card h3 {
+      font-size: 1rem; font-weight: 700; color: var(--primary);
+      margin-bottom: 6px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .pkg-card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; }
+    .pkg-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 600;
+      padding: 2px 8px; border-radius: 4px; margin-top: 10px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .tag-core { background: #ebf8ff; color: #2b6cb0; }
+    .tag-analysis { background: #f0fff4; color: #276749; }
+    .tag-output { background: #faf5ff; color: #6b46c1; }
+    .tag-meta { background: #fffaf0; color: #c05621; }
+
+    /* --- GALLERY --- */
+    #gallery { background: var(--bg-white); }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 20px;
+    }
+    .demo-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: all 0.2s;
+    }
+    .demo-card:hover { box-shadow: var(--shadow-lg); }
+    .demo-header {
+      padding: 24px 24px 16px; cursor: pointer;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .demo-num {
+      flex-shrink: 0; width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700;
+    }
+    .demo-info { flex: 1; min-width: 0; }
+    .demo-info h3 { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+    .demo-info p { font-size: 0.85rem; color: var(--text-light); line-height: 1.5; }
+    .demo-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .demo-tags .fn-tag {
+      font-size: 0.72rem; font-family: 'SFMono-Regular', Consolas, monospace;
+      padding: 2px 8px; border-radius: 4px;
+      background: #edf2f7; color: var(--primary);
+    }
+    .demo-tags .pkg-badge {
+      font-size: 0.72rem; font-weight: 600; padding: 2px 8px;
+      border-radius: 4px; background: var(--accent); color: #fff;
+    }
+    .demo-expand {
+      font-size: 0.8rem; color: var(--accent); font-weight: 600;
+      padding: 0 24px 16px; cursor: pointer; user-select: none;
+    }
+    .demo-expand::before { content: '\25BC '; font-size: 0.65rem; }
+    .demo-expand.open::before { content: '\25B2 '; }
+    .demo-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .demo-body.open { max-height: 2000px; }
+    .demo-body-inner { padding: 0 24px 24px; }
+    .demo-body-inner h4 {
+      font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-muted); margin-bottom: 8px; margin-top: 16px;
+    }
+    .demo-body-inner h4:first-child { margin-top: 0; }
+    .demo-body-inner pre {
+      border-radius: var(--radius); margin: 0 0 8px;
+      font-size: 0.82rem !important; line-height: 1.55 !important;
+    }
+    .demo-body-inner pre code { font-size: 0.82rem !important; }
+    .output-block {
+      background: var(--code-bg); color: #cdd6f4;
+      border-radius: var(--radius); padding: 16px;
+      font-family: 'SFMono-Regular', Consolas, monospace;
+      font-size: 0.78rem; line-height: 1.5;
+      overflow-x: auto; white-space: pre; margin-bottom: 8px;
+    }
+    .demo-source-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.82rem; color: var(--accent); text-decoration: none;
+      font-weight: 600; margin-top: 8px;
+    }
+    .demo-source-link:hover { text-decoration: underline; }
+
+    /* --- GETTING STARTED --- */
+    .steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 40px;
+    }
+    .step {
+      background: var(--bg-white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px;
+    }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem; margin-bottom: 16px;
+    }
+    .step h3 { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+    .step p { font-size: 0.9rem; color: var(--text-light); }
+    .step code {
+      background: #edf2f7; padding: 2px 6px; border-radius: 4px;
+      font-size: 0.82rem; color: var(--primary);
+    }
+    .install-block {
+      background: var(--code-bg); border-radius: var(--radius);
+      padding: 20px; margin-top: 32px; max-width: 600px;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: var(--primary); color: rgba(255,255,255,0.7);
+      padding: 40px 24px; text-align: center; font-size: 0.88rem;
+    }
+    footer a { color: var(--accent-light); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 16px; }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+      .hero { padding: 120px 20px 60px; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero p { font-size: 1rem; }
+      section { padding: 60px 16px; }
+      .section-title { font-size: 1.6rem; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    /* Highlight row for key outputs */
+    .output-highlight { color: var(--accent-light); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">R4<span>SUB</span> Gallery</a>
+    <ul class="nav-links">
+      <li><a href="#ecosystem">Ecosystem</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#start">Get Started</a></li>
+      <li><a href="https://github.com/R4SUB/r4sub-gallery" target="_blank">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>R4<span>SUB</span> Gallery</h1>
+    <p>Practical demos for the R4SUB clinical submission readiness ecosystem. See how 8 R packages work together to assess, score, and validate regulatory submissions.</p>
+    <div class="hero-buttons">
+      <a href="#gallery" class="btn btn-primary">View Gallery</a>
+      <a href="https://github.com/R4SUB" target="_blank" class="btn btn-outline">GitHub Organization</a>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section id="ecosystem">
+  <div class="container">
+    <div class="section-label">The Ecosystem</div>
+    <h2 class="section-title">8 Packages, One Mission</h2>
+    <p class="section-desc">Every package handles a specific aspect of submission readiness, from evidence schema to regulatory scoring and interactive dashboards.</p>
+    <div class="pkg-grid">
+      <a href="https://github.com/R4SUB/r4subcore" target="_blank" class="pkg-card">
+        <h3>r4subcore</h3>
+        <p>Core evidence schema, parsers, and scoring primitives. The foundation everything builds on.</p>
+        <span class="pkg-tag tag-core">Core</span>
+      </a>
+      <a href="https://github.com/R4SUB/r4subdata" target="_blank" class="pkg-card">
+        <h3>r4subdata</h3>
+        <p>Demo datasets: evidence tables, ADaM/SDTM metadata, risk registers, and regulatory indicators.</p>
+        <span class="pkg-tag tag-core">Core</span>
+      </a>
+      <a href="https://github.com/R4SUB/r4subtrace" target="_blank" class="pkg-card">
+        <h3>r4subtrace</h3>
+        <p>ADaM-to-SDTM traceability analysis. Build trace models, detect orphans, compute coverage levels.</p>
+        <span class="pkg-tag tag-analysis">Analysis</span>
+      </a>
+      <a href="https://github.com/R4SUB/r4subrisk" target="_blank" class="pkg-card">
+        <h3>r4subrisk</h3>
+        <p>FMEA-based risk quantification. Risk registers, RPN scoring, mitigation tracking.</p>
+        <span class="pkg-tag tag-analysis">Analysis</span>
+      </a>
+      <a href="https://github.com/R4SUB/r4subscore" target="_blank" class="pkg-card">
+        <h3>r4subscore</h3>
+        <p>Submission Confidence Index (SCI) scoring engine. Indicator scores, pillar aggregation, decision bands.</p>
+        <span class="pkg-tag tag-analysis">Analysis</span>
+      </a>
+      <a href="https://github.com/R4SUB/r4subprofile" target="_blank" class="pkg-card">
+        <h3>r4subprofile</h3>
+        <p>Regulatory submission profiles for FDA, EMA, PMDA, Health Canada, TGA, and MHRA.</p>
+        <span class="pkg-tag tag-analysis">Analysis</span>
+      </a>
+      <a href="https://github.com/R4SUB/r4subui" target="_blank" class="pkg-card">
+        <h3>r4subui</h3>
+        <p>Interactive Shiny dashboard for exploring evidence, scores, and submission readiness.</p>
+        <span class="pkg-tag tag-output">Output</span>
+      </a>
+      <a href="https://github.com/R4SUB/r4sub" target="_blank" class="pkg-card">
+        <h3>r4sub</h3>
+        <p>Meta-package. One install, one library call to load the entire ecosystem.</p>
+        <span class="pkg-tag tag-meta">Meta</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-label">Demo Gallery</div>
+    <h2 class="section-title">11 Practical Use Cases</h2>
+    <p class="section-desc">Each script is self-contained and runnable. Click any card to see the code and sample output.</p>
+    <div class="demo-grid">
+
+      <!-- 00 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">00</div>
+          <div class="demo-info">
+            <h3>Setup</h3>
+            <p>Install and verify the entire R4SUB ecosystem with a single command.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4sub</span>
+              <span class="fn-tag">pak::pak()</span>
+              <span class="fn-tag">r4sub_packages()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">## Install the R4SUB meta-package (pulls all dependencies)
+if (!requireNamespace("pak", quietly = TRUE))
+  install.packages("pak")
+
+pak::pak("R4SUB/r4sub")
+
+## Verify
+library(r4sub)
+r4sub_packages()</code></pre>
+            <h4>Output</h4>
+            <div class="output-block"><span class="output-highlight">-- Attaching R4SUB packages (r4sub 0.1.0) --</span>
+  r4subcore    0.1.0
+  r4subtrace   0.1.0
+  r4subscore   0.1.0
+  r4subrisk    0.1.0
+  r4subdata    0.1.0
+  r4subprofile 0.1.0</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/00-setup.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 01 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">01</div>
+          <div class="demo-info">
+            <h3>Getting Started</h3>
+            <p>Load packages, discover 6 built-in datasets, and explore the evidence table schema.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4sub</span>
+              <span class="pkg-badge">r4subdata</span>
+              <span class="fn-tag">list_datasets()</span>
+              <span class="fn-tag">evidence_schema()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">library(r4sub)
+
+## Discover available datasets
+list_datasets()
+
+## Peek at the evidence table
+head(evidence_pharma)
+
+## Explore the evidence schema
+evidence_schema()</code></pre>
+            <h4>Output</h4>
+            <div class="output-block">  name                  description                              n_rows n_cols
+  evidence_pharma       Pharma study evidence table (250 rows)      250     17
+  adam_metadata         ADaM metadata for ADSL, ADAE, ADLB           36      6
+  sdtm_metadata         SDTM metadata for DM, AE, LB                43      6
+  trace_mapping         ADaM-to-SDTM traceability mapping            25      6
+  risk_register_pharma  FMEA risk register with 18 risks             18      9
+  regulatory_indicators Regulatory indicator definitions              30      7
+
+<span class="output-highlight">Column dictionary for evidence_pharma:</span>
+  column           type      description
+  run_id           character Unique run identifier
+  study_id         character Study identifier (CDISCPILOT01)
+  asset_type       character Asset type: dataset, define, program, ...
+  indicator_id     character Indicator identifier (e.g., Q-MISS-VAR)
+  indicator_domain character Domain: quality, trace, risk, usability
+  severity         character Severity: info, low, medium, high, critical
+  result           character Result: pass, fail, warn, na
+  metric_value     numeric   Numeric metric value (if applicable)
+  ...</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/01-getting-started.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">02</div>
+          <div class="demo-info">
+            <h3>Evidence Pipeline</h3>
+            <p>Build evidence from scratch, canonicalize labels, validate schema, and combine multiple sources.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4subcore</span>
+              <span class="fn-tag">as_evidence()</span>
+              <span class="fn-tag">canon_severity()</span>
+              <span class="fn-tag">bind_evidence()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">library(r4subcore)
+
+ctx &lt;- r4sub_run_context(
+  study_id = "CDISCPILOT01", environment = "PROD", user = "demo_user"
+)
+
+quality_findings &lt;- data.frame(
+  indicator_id = c("QUAL_P21_ERROR", "QUAL_P21_ERROR", "QUAL_P21_WARN"),
+  asset_id     = c("ADSL", "ADAE", "ADLB"),
+  source_name  = c("pinnacle21", "pinnacle21", "pinnacle21"),
+  result       = c("fail", "pass", "warn"),
+  severity     = c("high", "info", "medium"),
+  ...
+)
+ev_quality &lt;- as_evidence(quality_findings, ctx = ctx)
+
+## Canonicalize inconsistent labels
+canon_severity(c("HIGH", "Low", "CRITICAL", "Info"))
+# [1] "high" "low" "critical" "info"</code></pre>
+            <h4>Output</h4>
+            <div class="output-block"><span class="output-highlight">Quality evidence ( 3 rows):</span>
+    indicator_id asset_id result severity
+1 QUAL_P21_ERROR     ADSL   fail     high
+2 QUAL_P21_ERROR     ADAE   pass     info
+3  QUAL_P21_WARN     ADLB   warn   medium
+
+Raw severities: HIGH, Low, MEDIUM, Info, CRITICAL, low
+<span class="output-highlight">Canonical:      high, low, medium, info, critical, low</span>
+
+Validation result: TRUE
+
+<span class="output-highlight">Combined evidence ( 5 rows):</span>
+  indicator_domain   indicator_id asset_id result
+1          quality QUAL_P21_ERROR     ADSL   fail
+2          quality QUAL_P21_ERROR     ADAE   pass
+3          quality  QUAL_P21_WARN     ADLB   warn
+4            trace TRACE_COVERAGE     ADSL   pass
+5            trace TRACE_COVERAGE     ADAE   warn</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/02-evidence-pipeline.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">03</div>
+          <div class="demo-info">
+            <h3>Traceability Analysis</h3>
+            <p>Build ADaM-to-SDTM trace models, detect orphan variables, and compute L0-L3 trace levels.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4subtrace</span>
+              <span class="pkg-badge">r4subdata</span>
+              <span class="fn-tag">build_trace_model()</span>
+              <span class="fn-tag">compute_trace_levels()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">library(r4subtrace); library(r4subdata)
+
+tm &lt;- build_trace_model(
+  adam_meta  = adam_metadata,
+  sdtm_meta = sdtm_metadata,
+  mapping   = trace_mapping
+)
+
+## Examine diagnostics
+orphans &lt;- tm$diagnostics$orphans
+levels  &lt;- compute_trace_levels(tm)
+print(table(levels$trace_level))</code></pre>
+            <h4>Output</h4>
+            <div class="output-block"><span class="output-highlight">Trace Model: 36 ADaM vars, 43 SDTM vars</span>
+  Edges: 25, Orphans: 11, Ambiguities: 0
+
+Orphan variables (ADaM vars with no SDTM link):
+   adam_dataset adam_var
+ 1 ADSL         TRT01P
+ 2 ADSL         TRT01A
+ 3 ADSL         SAFFL
+ 4 ADSL         ITTFL
+ 5 ADAE         AEREL
+ ...
+
+<span class="output-highlight">Trace level distribution:</span>
+  1   3
+ 11  25
+
+Generated <span class="output-highlight">47 evidence rows</span> from traceability model
+
+Trace indicator scores:
+  TRACE_VAR_COVERAGE_L2PLUS      0.694   69.4% coverage
+  TRACE_ORPHAN_VAR_COUNT        11       orphan variables
+  TRACE_AMBIGUOUS_MAPPING_COUNT  0       no ambiguities
+  TRACE_MEAN_TRACE_LEVEL         2.39    mean trace level</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/03-traceability-analysis.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">04</div>
+          <div class="demo-info">
+            <h3>Risk Assessment</h3>
+            <p>FMEA risk registers, RPN scoring, risk classification, auto-generation from evidence, and mitigation tracking.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4subrisk</span>
+              <span class="pkg-badge">r4subdata</span>
+              <span class="fn-tag">create_risk_register()</span>
+              <span class="fn-tag">compute_risk_scores()</span>
+              <span class="fn-tag">evidence_to_risks()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">library(r4subrisk); library(r4subdata)
+
+rr &lt;- create_risk_register(risk_register_pharma)
+rr &lt;- compute_risk_scores(rr)
+
+## Auto-generate risks from evidence
+auto_risks &lt;- evidence_to_risks(evidence_pharma)
+auto_rr &lt;- compute_risk_scores(auto_risks)
+
+## Apply mitigations
+rr_mitigated &lt;- apply_mitigations(rr, ...)</code></pre>
+            <h4>Output</h4>
+            <div class="output-block"><span class="output-highlight">Risk Register: 18 risk(s), 12 open</span>
+  Critical: 0, High: 3, Mean RPN: 24.8
+
+Risk distribution:
+  risk_level     n
+  high           3
+  low            4
+  medium        11
+
+Category summary:
+  category          n  mean_rpn
+  compliance        4     22.5
+  data_quality      6     25.2
+  documentation     4     18.2
+  programming       2     24.0
+  traceability      2     42.0
+
+<span class="output-highlight">Auto-generated 83 risks from 250 evidence rows</span>
+  Overall risk score: 0.221 (0=none, 1=max)
+  Mean RPN: 27.6, Max RPN: 75
+  High: 27, Low: 37, Medium: 19</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/04-risk-assessment.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">05</div>
+          <div class="demo-info">
+            <h3>Submission Scoring</h3>
+            <p>Compute the Submission Confidence Index (SCI), pillar scores, decision bands, and explainability breakdowns.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4subscore</span>
+              <span class="fn-tag">compute_sci()</span>
+              <span class="fn-tag">sci_explain()</span>
+              <span class="fn-tag">sci_config_default()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">library(r4subscore); library(r4subdata)
+
+ind_scores   &lt;- compute_indicator_scores(evidence_pharma)
+pillar_scores &lt;- compute_pillar_scores(evidence_pharma)
+sci          &lt;- compute_sci(pillar_scores)
+explanation  &lt;- sci_explain(evidence_pharma)</code></pre>
+            <h4>Output</h4>
+            <div class="output-block">Pillar scores:
+  pillar    pillar_score  n_indicators  weight
+  quality          0.396            8    0.35
+  trace            0.439            4    0.25
+  risk             0.499            3    0.25
+  usability        0.472            3    0.15
+
+<span class="output-highlight">Submission Confidence Index: 44.4 / 100</span>
+<span class="output-highlight">Decision Band: high_risk</span>
+
+  quality:    39.6% (weight: 35%)
+  trace:      43.9% (weight: 25%)
+  risk:       49.9% (weight: 25%)
+  usability:  47.2% (weight: 15%)
+
+Interpretation: High risk - not ready for submission
+
+Top loss contributors:
+  R-HIGH-RPN         5.64 loss   (risk)
+  T-ORPHAN-VAR       4.43 loss   (trace)
+  T-TRACE-LEVEL      3.98 loss   (trace)
+  R-MITIGATION-GAP   3.94 loss   (risk)
+  Q-TYPE-MISMATCH    3.24 loss   (quality)</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/05-submission-scoring.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">06</div>
+          <div class="demo-info">
+            <h3>Regulatory Profiles</h3>
+            <p>Compare pillar weights, required indicators, and coverage thresholds across FDA, EMA, PMDA, and more.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4subprofile</span>
+              <span class="fn-tag">submission_profile()</span>
+              <span class="fn-tag">list_authorities()</span>
+              <span class="fn-tag">validate_against_profile()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">library(r4subprofile); library(r4subdata)
+
+list_authorities()
+fda &lt;- submission_profile("FDA", "NDA")
+print(fda)
+
+validate_against_profile(evidence_pharma, fda)</code></pre>
+            <h4>Output</h4>
+            <div class="output-block"><span class="output-highlight">Supported regulatory authorities:</span>
+  authority       full_name                              country
+  FDA             U.S. Food and Drug Administration      United States
+  EMA             European Medicines Agency              European Union
+  PMDA            Pharmaceuticals and Medical Devices..  Japan
+  Health_Canada   Health Canada                          Canada
+  TGA             Therapeutic Goods Administration       Australia
+  MHRA            Medicines and Healthcare products Re.. United Kingdom
+
+<span class="output-highlight">Submission Profile: FDA NDA</span>
+  Pillar Weights: quality=0.35, trace=0.25, risk=0.25, usability=0.15
+  Ready Band: [85, 100]
+  Required Indicators: 15
+  Required Asset Types: dataset, define, program, validation, spec
+  Minimum Coverage: 90%
+
+Pillar weight comparison:
+  FDA NDA       quality=0.35  trace=0.25  risk=0.25  usability=0.15
+  EMA MAA       quality=0.30  trace=0.25  risk=0.30  usability=0.15
+  PMDA NDA_JP   quality=0.25  trace=0.30  risk=0.25  usability=0.20</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/06-regulatory-profiles.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">07</div>
+          <div class="demo-info">
+            <h3>End-to-End Workflow</h3>
+            <p>Complete pipeline: metadata &rarr; traceability &rarr; risk &rarr; evidence &rarr; SCI &rarr; go/no-go decision.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">all packages</span>
+              <span class="fn-tag">build_trace_model()</span>
+              <span class="fn-tag">compute_sci()</span>
+              <span class="fn-tag">validate_against_profile()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">## 1. Context
+ctx &lt;- r4sub_run_context("CDISCPILOT01", "PROD")
+
+## 2. Traceability
+tm &lt;- build_trace_model(adam_metadata, sdtm_metadata, trace_mapping)
+ev_trace &lt;- trace_model_to_evidence(tm, ctx)
+
+## 3. Risk
+rr &lt;- create_risk_register(risk_register_pharma)
+rr &lt;- compute_risk_scores(rr)
+
+## 4. Combine & Score
+ev_all  &lt;- bind_evidence(evidence_pharma, ev_trace)
+profile &lt;- submission_profile("FDA", "NDA")
+sci_cfg &lt;- profile_sci_config(profile)
+ps      &lt;- compute_pillar_scores(ev_all, config = sci_cfg)
+sci     &lt;- compute_sci(ps, config = sci_cfg)</code></pre>
+            <h4>Output</h4>
+            <div class="output-block">=============================================================
+  R4SUB End-to-End Submission Readiness Assessment
+=============================================================
+
+--- Traceability Analysis ---
+  Variables: 36 | L3 coverage: 69%
+  Evidence table created: 47 rows
+
+--- Risk Assessment ---
+  Risks: 18 | Mean RPN: 24.8 | Overall risk: 0.198
+
+--- Evidence Consolidation ---
+  Bound 2 evidence tables: 297 total rows
+  Domains: quality, risk, trace, usability
+
+--- Submission Confidence Index ---
+<span class="output-highlight">  SCI: 44.0 / 100</span>
+<span class="output-highlight">  Band: high_risk</span>
+
+  Pillar breakdown:
+    quality     39.6%  (weight: 35%)
+    trace       42.1%  (weight: 25%)
+    risk        49.9%  (weight: 25%)
+    usability   47.2%  (weight: 15%)
+
+--- Profile Compliance ---
+  Compliant: FALSE
+  Indicator coverage: 100% (required: 90%)
+
+==============================================================
+<span class="output-highlight">  DECISION: NOT READY - Significant work required</span>
+==============================================================</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/07-end-to-end-workflow.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">08</div>
+          <div class="demo-info">
+            <h3>Sensitivity Analysis</h3>
+            <p>What-if analysis: vary pillar weights, adjust decision thresholds, run automated sensitivity grids.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4subscore</span>
+              <span class="fn-tag">sci_sensitivity_analysis()</span>
+              <span class="fn-tag">sci_config_default()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">library(r4subscore); library(r4subdata)
+
+## Vary pillar weights
+weight_scenarios &lt;- list(
+  "Default (35/25/25/15)"       = c(quality=0.35, trace=0.25, risk=0.25, usability=0.15),
+  "Quality-heavy (50/20/20/10)" = c(quality=0.50, trace=0.20, risk=0.20, usability=0.10),
+  "Risk-heavy (20/20/50/10)"    = c(quality=0.20, trace=0.20, risk=0.50, usability=0.10),
+  "Equal (25/25/25/25)"         = c(quality=0.25, trace=0.25, risk=0.25, usability=0.25)
+)
+
+## Automated sensitivity grid
+quality_weights &lt;- seq(0.15, 0.55, by = 0.10)
+weight_grid &lt;- data.frame(
+  quality = quality_weights,
+  trace   = (1 - quality_weights) / 3, ...
+)
+result &lt;- sci_sensitivity_analysis(evidence_pharma, weight_grid)</code></pre>
+            <h4>Output</h4>
+            <div class="output-block"><span class="output-highlight">Experiment 1: Impact of Pillar Weights</span>
+
+  Scenario                               SCI  Band
+  Default (35/25/25/15)                 44.4  high_risk
+  Quality-heavy (50/20/20/10)           43.3  high_risk
+  Risk-heavy (20/20/50/10)              46.4  high_risk
+  Trace-heavy (20/40/20/20)             44.9  high_risk
+  Equal (25/25/25/25)                   45.2  high_risk
+
+<span class="output-highlight">Experiment 2: Impact of Decision Band Thresholds</span>
+
+  Ready threshold >= 75  ->  SCI: 44.4  Band: conditional
+  Ready threshold >= 80  ->  SCI: 44.4  Band: unclassified
+  Ready threshold >= 85  ->  SCI: 44.4  Band: high_risk
+
+<span class="output-highlight">Experiment 3: Automated Sensitivity Grid</span>
+
+  scenario quality trace  risk usability   SCI band
+         1    0.15 0.283 0.283     0.283  45.9 high_risk
+         2    0.25 0.25  0.25      0.25   45.2 high_risk
+         3    0.35 0.217 0.217     0.217  44.4 high_risk
+         4    0.45 0.183 0.183     0.183  43.7 high_risk
+         5    0.55 0.15  0.15      0.15   43.0 high_risk</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/08-sensitivity-analysis.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 09 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">09</div>
+          <div class="demo-info">
+            <h3>Multi-Authority Comparison</h3>
+            <p>Same study scored against 6 regulatory agencies. See which authority is strictest and how weights differ.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4subprofile</span>
+              <span class="pkg-badge">r4subscore</span>
+              <span class="fn-tag">submission_profile()</span>
+              <span class="fn-tag">compute_sci()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">authorities &lt;- list(
+  list("FDA", "NDA"), list("EMA", "MAA"),
+  list("PMDA", "NDA_JP"), list("Health_Canada", "NDS"),
+  list("TGA", "registration"), list("MHRA", "MAA_UK")
+)
+
+for (auth in authorities) {
+  profile &lt;- submission_profile(auth[[1]], auth[[2]])
+  cfg     &lt;- profile_sci_config(profile)
+  ps      &lt;- compute_pillar_scores(evidence_pharma, config = cfg)
+  sci     &lt;- compute_sci(ps, config = cfg)
+  # ...collect results
+}</code></pre>
+            <h4>Output</h4>
+            <div class="output-block"><span class="output-highlight">Multi-Authority Submission Readiness Comparison</span>
+Study: CDISCPILOT01 | Evidence rows: 250
+
+     Authority         Type  SCI      Band      Compliant Coverage
+           FDA          NDA 44.4 high_risk         FALSE      100
+           EMA          MAA 44.9 high_risk         FALSE      100
+          PMDA       NDA_JP 45.0 high_risk         FALSE      100
+ Health_Canada          NDS 44.4 high_risk         FALSE      100
+           TGA registration 44.9 high_risk         FALSE      100
+          MHRA       MAA_UK 44.9 high_risk         FALSE      100
+
+<span class="output-highlight">Strictest authority:    FDA (SCI: 44.4)</span>
+Most lenient authority: PMDA (SCI: 45.0)
+SCI range:             0.6 points
+
+Pillar Weight Comparison:
+  Authority       Quality  Trace   Risk  Usability
+  FDA                 35%    25%    25%        15%
+  EMA                 30%    25%    30%        15%
+  PMDA                25%    30%    25%        20%
+  Health_Canada       35%    25%    25%        15%
+  TGA                 30%    25%    30%        15%
+  MHRA                30%    25%    30%        15%</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/09-multi-authority-comparison.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="demo-card">
+        <div class="demo-header" onclick="toggleDemo(this)">
+          <div class="demo-num">10</div>
+          <div class="demo-info">
+            <h3>Dashboard Launch</h3>
+            <p>Launch the interactive Shiny dashboard with pre-loaded evidence data, demo data, or your own datasets.</p>
+            <div class="demo-tags">
+              <span class="pkg-badge">r4subui</span>
+              <span class="fn-tag">r4sub_app()</span>
+              <span class="fn-tag">generate_demo_evidence()</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-expand" onclick="toggleDemo(this.previousElementSibling)">Show code &amp; output</div>
+        <div class="demo-body">
+          <div class="demo-body-inner">
+            <h4>Code</h4>
+            <pre><code class="language-r">library(r4subui); library(r4subdata)
+
+## Launch with pre-loaded evidence
+r4sub_app(evidence = evidence_pharma)
+
+## Or with auto-generated demo data
+demo_ev &lt;- generate_demo_evidence(n_rows = 200)
+r4sub_app(evidence = demo_ev)
+
+## Or launch empty (upload data in the UI)
+r4sub_app()</code></pre>
+            <h4>Output</h4>
+            <div class="output-block" style="text-align:center; padding: 32px; color: var(--accent-light);">
+  Interactive Shiny dashboard launches in your browser.
+  Explore evidence tables, pillar scores, SCI gauges,
+  risk heatmaps, and traceability coverage charts.
+
+  Run this script locally to try it!</div>
+            <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/10-dashboard-launch.R" target="_blank" class="demo-source-link">View full source &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /demo-grid -->
+  </div>
+</section>
+
+<!-- GETTING STARTED -->
+<section id="start">
+  <div class="container">
+    <div class="section-label">Quick Start</div>
+    <h2 class="section-title">Get Running in 3 Steps</h2>
+    <p class="section-desc">All you need is R >= 4.2 and a few minutes.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Install</h3>
+        <p>Install the entire ecosystem with one command using <code>pak</code>.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Pick a Demo</h3>
+        <p>Choose any script from the <a href="#gallery" style="color:var(--accent)">gallery</a> above. Each one is self-contained.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Run</h3>
+        <p>Execute with <code>source("01-getting-started.R")</code> or <code>Rscript 01-getting-started.R</code></p>
+      </div>
+    </div>
+    <div class="install-block">
+      <pre style="margin:0"><code class="language-r"># Install the R4SUB ecosystem
+install.packages("pak")
+pak::pak("R4SUB/r4sub")
+
+# Clone the gallery
+# git clone https://github.com/R4SUB/r4sub-gallery.git
+# cd r4sub-gallery
+
+# Run any demo
+source("07-end-to-end-workflow.R")</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="https://github.com/R4SUB">GitHub Organization</a>
+    <a href="https://github.com/R4SUB/r4sub-gallery">Gallery Repository</a>
+    <a href="https://github.com/R4SUB/r4sub-gallery/blob/master/LICENSE">MIT License</a>
+  </div>
+  <p>R4SUB &mdash; Clinical Submission Readiness Ecosystem for R</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-r.min.js"></script>
+<script>
+function toggleDemo(headerEl) {
+  const card = headerEl.closest('.demo-card');
+  const body = card.querySelector('.demo-body');
+  const expand = card.querySelector('.demo-expand');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  expand.classList.toggle('open');
+  expand.textContent = isOpen ? 'Show code & output' : 'Hide code & output';
+}
+</script>
+</body>
+</html>
