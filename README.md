@@ -50,6 +50,10 @@ Or from the command line:
 Rscript 01-getting-started.R
 ```
 
+## Maintained by
+
+R4SUB is part of the open-source work of [TechWorksLab](https://techworkslab.com) - clinical programming and regulatory submissions. Maintainer: Pawan Rama Mali.
+
 ## License
 
 MIT
